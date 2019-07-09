@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 
 // Создает массив с моки комментами и записывает его в переменную commentsTemplates
