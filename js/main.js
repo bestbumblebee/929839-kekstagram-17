@@ -82,3 +82,54 @@ var renderPhotos = function (array) {
 };
 // вызывает функцию renderPhotos, почле которой все совершается
 renderPhotos(photos);
+
+var ESC_CODE = 27;
+
+var formChangeFile = document.querySelector('.img-upload__overlay');
+var closeForm = formChangeFile.querySelector('.img-upload__cancel');
+var photo = document.querySelector('.img-upload__preview img');
+
+var effectLevel = formChangeFile.querySelector('.effect-level');
+var effectLevelpin = formChangeFile.querySelector('.effect-level__pin');
+var effectLevelDepth = formChangeFile.querySelector('.effect-level__depth');
+
+var onClose = function () {
+  document.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ESC_CODE) {
+      photo.classList.remove(photo.removeAttribute('class'));
+      formChangeFile.classList.add('hidden');
+      document.removeEventListener('keydown', onClose);
+    }
+  });
+};
+
+
+uploadFile.addEventListener('change', function () {
+  formChangeFile.classList.remove('hidden');
+  document.addEventListener('keydown', onClose);
+  changeEffect();
+});
+
+closeForm.addEventListener('click', function () {
+  photo.classList.remove(photo.removeAttribute('class'));
+  formChangeFile.classList.add('hidden');
+  document.removeEventListener('keydown', onClose);
+});
+
+var fieldset = document.querySelector('.effects');
+
+fieldset.addEventListener('change', function (evt) {
+  var element = evt.target;
+  photo.classList.remove(photo.removeAttribute('class'));
+  photo.classList.add('effects__preview--' + element.getAttribute('value'));
+});
+
+var changeEffect = function () {
+  if (!photo.hasAttribute('class') || photo.className === 'effects__preview--none') {
+    effectLevel.style.display = 'none';
+  } else {
+    effectLevel.style.display = 'block';
+    effectLevelpin.style.left = '100%';
+    effectLevelDepth.style.width = '100%';
+  }
+};
