@@ -74,8 +74,10 @@ var effectLevel = formChangeFile.querySelector('.effect-level');
 var effectLevelpin = formChangeFile.querySelector('.effect-level__pin');
 var effectLevelDepth = formChangeFile.querySelector('.effect-level__depth');
 
+var textDescription = formChangeFile.querySelector('.text__description');
+
 var onPopupEscPress = function (evt) {
-  if (evt.keyCode === ESC_CODE) {
+  if (evt.keyCode === ESC_CODE && document.activeElement !== textDescription) {
     onPopupCloseClick();
   }
 };
@@ -119,3 +121,4 @@ var changeEffect = function () {
     effectLevelDepth.style.width = '100%';
   }
 };
+
