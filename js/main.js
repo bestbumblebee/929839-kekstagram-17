@@ -143,6 +143,7 @@ fieldset.addEventListener('change', function (evt) {
   var element = evt.target;
   photo.classList.remove(photo.removeAttribute('class'));
   photo.classList.add('effects__preview--' + element.getAttribute('value'));
+  changeEffect();
 });
 /* передаем в переменную функцию, которая будет менять эффект на фото. В начале в функции содержитс условии, в котором сказано:
 если НЕ фото с атрибутом класс или фото с классом строго соответсвующим условию, тогда мы добавляем ДОМ элементу effectLeve который
