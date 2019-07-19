@@ -84,10 +84,11 @@ var renderPhotos = function (array) {
 renderPhotos(photos);
 // заноси в переменную код кнопки эскейп
 var ESC_CODE = 27;
-/* создает по очереди три переменные в которые заносим данные, которые находимв ДОМе с помощью метода квериселектор : 1. ищем
-элемент с классом img-upload__overlay - это основной див в котором лежит вся разметка формы редактирования зображения 2. ищем
-элемент с классом img-upload__cancel - это кнопка закрытия формы, 3. ищем элемент с классом img-upload__preview img - это имг
-которая лежит в диве*/
+/* создает по очереди четыре переменные в которые заносим данные, которые находимв ДОМе с помощью метода квериселектор :1. Ищет
+дом элемент с id upload-file и записівает его в переменную uploadFile 2. ищем элемент с классом img-upload__overlay - это основной
+ див в котором лежит вся разметка формы редактирования зображения 3. ищем элемент с классом img-upload__cancel - это кнопка закрытия
+  формы, 4. ищем элемент с классом img-upload__preview img - это имг которая лежит в диве*/
+var uploadFile = document.querySelector('#upload-file');
 var formChangeFile = document.querySelector('.img-upload__overlay');
 var closeForm = formChangeFile.querySelector('.img-upload__cancel');
 var photo = document.querySelector('.img-upload__preview img');
