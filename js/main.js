@@ -1,5 +1,7 @@
 'use strict';
 
+var ESC_CODE = 27;
+
 var commentsTemplates = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -63,8 +65,6 @@ var renderPhotos = function (array) {
 
 renderPhotos(photos);
 
-var ESC_CODE = 27;
-
 var uploadFile = document.querySelector('#upload-file');
 var formChangeFile = document.querySelector('.img-upload__overlay');
 var closeForm = formChangeFile.querySelector('.img-upload__cancel');
@@ -76,36 +76,39 @@ var effectLevelDepth = formChangeFile.querySelector('.effect-level__depth');
 
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_CODE) {
-    closePopup();
+    onPopupCloseClick();
   }
 };
 
-var openPopup = function () {
+var onPopupOpenClick = function () {
   formChangeFile.classList.remove('hidden');
   document.addEventListener('keydown', onPopupEscPress);
+  fieldset.addEventListener('change', onFieldsetChange);
+  closeForm.addEventListener('click', onPopupCloseClick);
 };
 
-var closePopup = function () {
+var onPopupCloseClick = function () {
   formChangeFile.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
+  fieldset.removeEventListener('change', onFieldsetChange);
+  closeForm.removeEventListener('click', onPopupCloseClick);
 };
 
-
 uploadFile.addEventListener('change', function () {
-  openPopup();
+  onPopupOpenClick();
   changeEffect();
 });
 
-closeForm.addEventListener('click', closePopup);
+closeForm.addEventListener('click', onPopupCloseClick);
 
 var fieldset = document.querySelector('.effects');
 
-fieldset.addEventListener('change', function (evt) {
+var onFieldsetChange = function (evt) {
   var element = evt.target;
   photo.classList.remove(photo.removeAttribute('class'));
   photo.classList.add('effects__preview--' + element.getAttribute('value'));
   changeEffect();
-});
+};
 
 var changeEffect = function () {
   if (!photo.hasAttribute('class') || photo.className === 'effects__preview--none') {
