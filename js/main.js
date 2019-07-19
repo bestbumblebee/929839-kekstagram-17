@@ -82,48 +82,72 @@ var renderPhotos = function (array) {
 };
 // вызывает функцию renderPhotos, почле которой все совершается
 renderPhotos(photos);
-
+// заноси в переменную код кнопки эскейп
 var ESC_CODE = 27;
-
+/* создает по очереди три переменные в которые заносим данные, которые находимв ДОМе с помощью метода квериселектор : 1. ищем
+элемент с классом img-upload__overlay - это основной див в котором лежит вся разметка формы редактирования зображения 2. ищем
+элемент с классом img-upload__cancel - это кнопка закрытия формы, 3. ищем элемент с классом img-upload__preview img - это имг
+которая лежит в диве*/
 var formChangeFile = document.querySelector('.img-upload__overlay');
 var closeForm = formChangeFile.querySelector('.img-upload__cancel');
 var photo = document.querySelector('.img-upload__preview img');
-
+/*  создает по очереди еще три переменные : 1. на этот раз в найденном элементе который мы внесли в элемент formChangeFil мы ищем
+элемент с классом effect-level - это модификатор, который присвоен филдсету, который отвечает за Изменение глубины эффекта,
+ накладываемого на изображение, 2. Кнопка изменения глубины эффекта фотографии, 3. Глубина эффекта фотографии (объяснения по классам
+  сократил так как они идентичны первому пункту) */
 var effectLevel = formChangeFile.querySelector('.effect-level');
 var effectLevelpin = formChangeFile.querySelector('.effect-level__pin');
 var effectLevelDepth = formChangeFile.querySelector('.effect-level__depth');
-
-var onClose = function () {
-  document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ESC_CODE) {
-      photo.classList.remove(photo.removeAttribute('class'));
-      formChangeFile.classList.add('hidden');
-      document.removeEventListener('keydown', onClose);
-    }
-  });
+/* Создаем переменную, в которую передаем функцию с параметром - объектом evt , сокращение от эвент листеннера, то есть обработчик
+события). В функции мы залем условие, что если одно из значений объекта evt, а именно keyCode будет строго равно значению. которое
+мы записали в переменную ESC_CODE а именно 27, то тогда сработает функция closePopup которая закрывает попап */
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_CODE) {
+    closePopup();
+  }
+};
+/* создаем переменную в которую передаем функцию , которая во-первых в ДОМ элементе , который мы нашли и передали в переменную
+formChangeFile (кнопка закрытия попапа с формой) с помощью метода remove удалет класс hidden из списка классов этого элемента,
+то етсь делает попап видимым. А во-вторых на документ добавляет обработчик события keydown, которое если наступает , то
+срабатывает функция, которую мы передали в переменную onPopupEscPress, а именно если кнопка на которую нажали будет эскеп
+то попак закроется. То есть обрабочик на попапе формы запускается вместе с открытием попапа  */
+var openPopup = function () {
+  formChangeFile.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+};
+/* создает переменную, зеркально идентичную предыдущей с той разницей, что сейчас ее задача закрыть попап формы путем добавления
+класса хайден который скрывает форму, а так же убирает ненужный теперь обработчик события который ослеживет нажатия клавишь и если
+нажатие на эскейп, тогда закрывается попап. Удаляется обработчик потому, что если это сделать прямо, то даже при закрытом попапе
+он добалялся методом эдд и будет добавляться при каждом открытии попапа */
+var closePopup = function () {
+  formChangeFile.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
 };
 
-
+/* Одственно обработчик события change который вешаем на инпут загрузки файла, который запускает 2 функции: 1. открывает попап с
+формой и 2. менет эффект фото */
 uploadFile.addEventListener('change', function () {
-  formChangeFile.classList.remove('hidden');
-  document.addEventListener('keydown', onClose);
+  openPopup();
   changeEffect();
 });
-
-closeForm.addEventListener('click', function () {
-  photo.classList.remove(photo.removeAttribute('class'));
-  formChangeFile.classList.add('hidden');
-  document.removeEventListener('keydown', onClose);
-});
-
+// обработчик события клик по кнопке "закрыть форму", который при наступлении собыия закрывает форму
+closeForm.addEventListener('click', closePopup);
+// передаем в переменную ДОМ элемент с классом .effects это филдсет отвечающий за Наложение эффекта на изображение
 var fieldset = document.querySelector('.effects');
-
+/* В на этот филдсет вешаем обработчик события change в котором: 1. присваиваем переменной element ссылку на объект инициатор
+события, 2. удаляет с элемента фото атирибут класс, 3. добавляет элементу фото класс, который формируется конкатенацией строк:
+начала effects__preview-- к которому дудет добавлена строка, которая будет взята из элеменат в котором наступило событие в котором
+будет взято значение атирибута value */
 fieldset.addEventListener('change', function (evt) {
   var element = evt.target;
   photo.classList.remove(photo.removeAttribute('class'));
   photo.classList.add('effects__preview--' + element.getAttribute('value'));
 });
-
+/* передаем в переменную функцию, которая будет менять эффект на фото. В начале в функции содержитс условии, в котором сказано:
+если НЕ фото с атрибутом класс или фото с классом строго соответсвующим условию, тогда мы добавляем ДОМ элементу effectLeve который
+нашли раньше, инлайновый стиль - дисплей none ТО есть скрывает филдсет Изменение глубины эффекта, накладываемого на изображение.
+ Если условие не выполняется, тогда филдсет показывается, а блочку пин через инлайн стиль передается позиция слева 100% и диву который
+ отвечает за Глубину эффекта фотографии. дается ширина 100% родителя  */
 var changeEffect = function () {
   if (!photo.hasAttribute('class') || photo.className === 'effects__preview--none') {
     effectLevel.style.display = 'none';
