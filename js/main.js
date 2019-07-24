@@ -136,43 +136,31 @@ var getValueFilter = function (procent, minFilter, maxFilter) {
 // изменяет фильтр
 
 var changeEffectLevel = function (procent) {
-  var maxFilter = null;
-  var minFilter = null;
-  var valueFilter = null;
 
   switch (photo.className) {
     case 'effects__preview--chrome' :
-      minFilter = 0;
-      maxFilter = 1;
-      valueFilter = procent * (maxFilter - minFilter) / 100 + minFilter;
-      photo.style.filter = 'grayscale(' + valueFilter + ')';
+
+      photo.style.filter = 'grayscale(' + getValueFilter(procent, 0, 1) + ')';
       break;
 
     case 'effects__preview--sepia' :
-      minFilter = 0;
-      maxFilter = 1;
-      valueFilter = procent * (maxFilter - minFilter) / 100 + minFilter;
-      photo.style.filter = 'sepia(' + valueFilter + ')';
+
+      photo.style.filter = 'sepia(' + getValueFilter(procent, 0, 1) + ')';
       break;
 
     case 'effects__preview--marvin' :
-      minFilter = 0;
-      maxFilter = 100;
-      valueFilter = procent * (maxFilter - minFilter) / 100 + minFilter;
-      photo.style.filter = 'invert(' + valueFilter + '%)';
+
+      photo.style.filter = 'invert(' + getValueFilter(procent, 0, 100) + '%)';
       break;
 
     case 'effects__preview--phobos' :
-      minFilter = 0;
-      maxFilter = 3;
-      valueFilter = procent * (maxFilter - minFilter) / 100 + minFilter;
-      photo.style.filter = 'blur(' + valueFilter + 'px)';
+
+      photo.style.filter = 'blur(' + getValueFilter(procent, 0, 3) + 'px)';
       break;
 
     case 'effects__preview--heat' :
-      maxFilter = 3;
-      valueFilter = procent * (maxFilter - minFilter) / 100 + minFilter;
-      photo.style.filter = 'brightness(' + valueFilter + ')';
+
+      photo.style.filter = 'brightness(' + getValueFilter(procent, 1, 3) + ')';
       break;
   }
 };
@@ -191,9 +179,8 @@ effectLevelPin.addEventListener('mousedown', function (evt) {
       x: startCoords.x - moveEvt.clientX,
     };
 
-    startCoords = {
-      x: moveEvt.clientX,
-    };
+    startCoords.x = moveEvt.clientX;
+
     var newLeft = effectLevelPin.offsetLeft - shift.x;
 
     var rightEdge = effectLevelLine.offsetWidth;
