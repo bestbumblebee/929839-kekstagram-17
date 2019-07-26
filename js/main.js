@@ -85,7 +85,8 @@ var onPopupEscPress = function (evt) {
   }
 };
 
-var onPopupOpenClick = function () {
+var onPopupOpenChange = function () {
+  changeEffect();
   formChangeFile.classList.remove('hidden');
   document.addEventListener('keydown', onPopupEscPress);
   fieldset.addEventListener('change', onFieldsetChange);
@@ -100,11 +101,8 @@ var onPopupCloseClick = function () {
 };
 
 uploadFile.addEventListener('change', function () {
-  onPopupOpenClick();
-  changeEffect();
+  onPopupOpenChange();
 });
-
-closeForm.addEventListener('click', onPopupCloseClick);
 
 var fieldset = document.querySelector('.effects');
 
