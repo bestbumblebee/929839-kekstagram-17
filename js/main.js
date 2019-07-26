@@ -71,9 +71,9 @@ var closeForm = formChangeFile.querySelector('.img-upload__cancel');
 var photo = document.querySelector('.img-upload__preview img');
 
 var effectLevel = formChangeFile.querySelector('.effect-level');
-var effectLevelpin = formChangeFile.querySelector('.effect-level__pin');
 var effectLevelLine = formChangeFile.querySelector('.effect-level__line');
 var effectLevelValue = formChangeFile.querySelector('.effect-level__value');
+var effectLevelPin = formChangeFile.querySelector('.effect-level__pin');
 var effectLevelDepth = formChangeFile.querySelector('.effect-level__depth');
 
 var textDescription = formChangeFile.querySelector('.text__description');
@@ -121,7 +121,7 @@ var changeEffect = function () {
     photo.style.filter = 'none';
   } else {
     effectLevel.style.display = 'block';
-    effectLevelpin.style.left = '100%';
+    effectLevelPin.style.left = '100%';
     effectLevelDepth.style.width = '100%';
     changeEffectLevel(100);
   }
