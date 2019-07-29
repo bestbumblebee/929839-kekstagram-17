@@ -14,19 +14,15 @@
   };
 
   var onUploadFileChange = function () {
-    window.changeEffect.onFilterChange();
-    window.changeEffect.formChangeFile.classList.remove('hidden');
+    window.changeEffect.addListenersForm();
     closeForm.addEventListener('click', onClosePopupClick);
     document.addEventListener('keydown', onPopupEscPress);
-    window.changeEffect.effectLevelPin.addEventListener('mousedown', window.changeEffect.onEffectLevelPinMousedown);
   };
 
   var onClosePopupClick = function () {
-    window.changeEffect.photo.classList.remove(window.changeEffect.photo.removeAttribute('class'));
-    window.changeEffect.formChangeFile.classList.add('hidden');
+    window.changeEffect.removeListenersForm();
     closeForm.removeEventListener('click', onClosePopupClick);
     document.removeEventListener('keydown', onPopupEscPress);
-    window.changeEffect.effectLevelPin.removeEventListener('mousedown', window.changeEffect.onEffectLevelPinMousedown);
   };
 
   uploadFile.addEventListener('change', onUploadFileChange);
