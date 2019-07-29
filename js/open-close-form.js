@@ -9,27 +9,25 @@
 
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === ESC_CODE && document.activeElement !== textDescription) {
-      onClosePopup();
+      onClosePopupClick();
     }
   };
 
-  var onOpenPopup = function () {
-    window.changeEffect.onChangeEffect();
+  var onUploadFileChange = function () {
+    window.changeEffect.onFilterChange();
     window.changeEffect.formChangeFile.classList.remove('hidden');
-    closeForm.addEventListener('click', onPopupEscPress);
+    closeForm.addEventListener('click', onClosePopupClick);
     document.addEventListener('keydown', onPopupEscPress);
-    window.changeEffect.effectLevelPin.addEventListener('mousedown', window.changeEffect.onEffectLevelPin);
+    window.changeEffect.effectLevelPin.addEventListener('mousedown', window.changeEffect.onEffectLevelPinMousedown);
   };
 
-  var onClosePopup = function () {
+  var onClosePopupClick = function () {
     window.changeEffect.photo.classList.remove(window.changeEffect.photo.removeAttribute('class'));
     window.changeEffect.formChangeFile.classList.add('hidden');
-    closeForm.removeEventListener('click', onPopupEscPress);
+    closeForm.removeEventListener('click', onClosePopupClick);
     document.removeEventListener('keydown', onPopupEscPress);
-    window.changeEffect.effectLevelPin.removeEventListener('mousedown', window.changeEffect.onEffectLevelPin);
+    window.changeEffect.effectLevelPin.removeEventListener('mousedown', window.changeEffect.onEffectLevelPinMousedown);
   };
 
-  uploadFile.addEventListener('change', function () {
-    onOpenPopup();
-  });
+  uploadFile.addEventListener('change', onUploadFileChange);
 })();

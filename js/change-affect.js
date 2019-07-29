@@ -13,15 +13,15 @@
   var effectLevelDepth = formChangeFile.querySelector('.effect-level__depth');
 
 
-  effect.addEventListener('change', function (evt) {
+  var onFilterChange = function (evt) {
     var element = evt.target;
 
     photo.classList.remove(photo.removeAttribute('class'));
     photo.classList.add('effects__preview--' + element.getAttribute('value'));
-    onChangeEffect();
-  });
+    onEffectChange();
+  };
 
-  var onChangeEffect = function () {
+  var onEffectChange = function () {
     if (!photo.hasAttribute('class') || photo.className === 'effects__preview--none') {
       effectLevel.style.display = 'none';
       photo.style.filter = 'none';
@@ -31,14 +31,6 @@
       effectLevelDepth.style.width = '100%';
       changeEffectLevel(100);
     }
-  };
-
-  window.changeEffect = {
-    formChangeFile: formChangeFile,
-    photo: photo,
-    effectLevelPin: effectLevelPin,
-    onChangeEffect: onChangeEffect,
-    onEffectLevelPin: onEffectLevelPin
   };
 
   // получает значения фильтра
@@ -71,7 +63,7 @@
     }
   };
 
-  var onEffectLevelPin = function (evt) {
+  var onEffectLevelPinMousedown = function (evt) {
     // перемещает ползунок
     var startCoords = {
       x: evt.clientX,
@@ -113,5 +105,23 @@
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
+  };
+  var addListenersForm = function () {
+    onEffectChange();
+    formChangeFile.classList.remove('hidden');
+    effect.addEventListener('change', onFilterChange);
+    effectLevelPin.addEventListener('mousedown', onEffectLevelPinMousedown);
+  };
+
+  var removeListenersForm = function () {
+    photo.classList.remove(photo.removeAttribute('class'));
+    formChangeFile.classList.add('hidden');
+    effect.removeEventListener('change', onFilterChange);
+    effectLevelPin.removeEventListener('mousedown', onEffectLevelPinMousedown);
+  };
+
+  window.changeEffect = {
+    addListenersForm: addListenersForm,
+    removeListenersForm: removeListenersForm
   };
 })();
