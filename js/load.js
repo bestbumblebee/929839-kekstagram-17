@@ -15,6 +15,7 @@
       } else {
         onError('Ошибка при загрузке данных с сервера');
       }
+      window.picturesData = xhr.response;
     });
     xhr.addEventListener('error', function () {
       onError('Произошла ошибка соединения');
