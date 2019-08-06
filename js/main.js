@@ -1,3 +1,8 @@
 'use strict';
+var init = function (pictures) {
+  window.renderPictures(pictures);
+  window.renderBigPicture(pictures[0]);
+  window.initFilter(pictures);
+};
 
-window.load(window.initFilter, window.renderMessageError);
+window.load(init, window.renderMessageError);

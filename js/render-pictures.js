@@ -21,8 +21,8 @@
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < pictures.length; i++) {
       fragment.appendChild(renderPicture(pictures[i]));
-      listElement.appendChild(fragment);
     }
+    listElement.appendChild(fragment);
   };
   window.renderPictures = renderPictures;
 })();
