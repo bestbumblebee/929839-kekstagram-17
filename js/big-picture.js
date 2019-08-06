@@ -48,7 +48,26 @@
     bigPicture.querySelector('.likes-count').textContent = photo.likes;
     bigPicture.querySelector('.social__caption').textContent = photo.description;
 
+    closeBigPicture.addEventListener('click', onClosePictureClick);
+    document.addEventListener('keydown', onPopupEscPress);
+
     renderComments(photo.comments);
   };
+  var ESC_CODE = 27;
+
+  var closeBigPicture = bigPicture.querySelector('.big-picture__cancel');
+
+  var onPopupEscPress = function (evt) {
+    if (evt.keyCode === ESC_CODE) {
+      onClosePictureClick();
+    }
+  };
+
+  var onClosePictureClick = function () {
+    bigPicture.classList.add('hidden');
+    closeBigPicture.removeEventListener('click', onClosePictureClick);
+    document.removeEventListener('keydown', onPopupEscPress);
+  };
+
   window.renderBigPicture = renderBigPicture;
 })();

@@ -14,6 +14,12 @@
     pictureElement.querySelector('.picture__comments').textContent = photo.comments.length;
     pictureElement.querySelector('.picture__likes').textContent = photo.likes;
 
+    var onPictureElementClick = function () {
+      window.renderBigPicture(photo);
+    };
+
+    pictureElement.addEventListener('click', onPictureElementClick);
+
     return pictureElement;
   };
 
