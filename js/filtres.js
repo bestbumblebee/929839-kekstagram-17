@@ -34,7 +34,6 @@
   };
 
   var initFilter = function (pictures) {
-    window.renderPictures(pictures);
 
     var filter = document.querySelector('.img-filters');
     filter.classList.remove('img-filters--inactive');
