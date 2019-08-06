@@ -9,19 +9,19 @@
 
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === ESC_CODE && document.activeElement !== textDescription) {
-      onClosePopupClick();
+      onCloseFormClick();
     }
   };
 
   var onUploadFileChange = function () {
     window.changeEffect.addListenersForm();
-    closeForm.addEventListener('click', onClosePopupClick);
+    closeForm.addEventListener('click', onCloseFormClick);
     document.addEventListener('keydown', onPopupEscPress);
   };
 
-  var onClosePopupClick = function () {
+  var onCloseFormClick = function () {
     window.changeEffect.removeListenersForm();
-    closeForm.removeEventListener('click', onClosePopupClick);
+    closeForm.removeEventListener('click', onCloseFormClick);
     document.removeEventListener('keydown', onPopupEscPress);
   };
 
