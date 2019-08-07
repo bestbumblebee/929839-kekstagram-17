@@ -36,10 +36,10 @@
 
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < comments.length; i++) {
-      var comment = renderComment(comments[i]);
+    comments.forEach(function (element) {
+      var comment = renderComment(element);
       fragment.appendChild(comment);
-    }
+    });
 
     listComment.appendChild(fragment);
   };

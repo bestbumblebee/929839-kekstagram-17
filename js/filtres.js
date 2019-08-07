@@ -10,10 +10,10 @@
 
     if (firstCommentsLength < secondCommentsLength) {
       return 1;
-    } else if (firstCommentsLength > secondCommentsLength) {
+    }
+    if (firstCommentsLength > secondCommentsLength) {
       return -1;
     }
-
     return 0;
   };
 
@@ -57,8 +57,8 @@
         var newPictures = getRandomPictures(pictures);
         getFilterPictures(newPictures);
       } else if (evt.target.id === 'filter-discussed') {
-        var array = sortPictures(pictures);
-        getFilterPictures(array);
+        var discussedPictures = sortPictures(pictures);
+        getFilterPictures(discussedPictures);
       }
     };
 

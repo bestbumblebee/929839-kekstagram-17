@@ -10,33 +10,31 @@
       return hash.toLowerCase();
     });
 
-    var textError = '';
-
     if (hashtag.trim() !== '') {
       if (tags.length > MAX_TAGS) {
-        textError = 'Хештегов должно быть не больше 5';
-        return textError;
+        return 'Хештегов должно быть не больше 5';
       }
 
       for (var i = 0; i < tags.length; i++) {
         var hash = tags[i];
 
         if (hash.length > MAX_LENGTH) {
-          textError = 'Длина хештега должна быть не больше 20 символов';
-        } else if (hash === '#') {
-          textError = 'Хештег не может состоять только из #';
-        } else if (hash[0] !== '#') {
-          textError = 'Хештег должен начинаться с #';
-        } else if (tagsCopy.indexOf(hash.toLowerCase(), i + 1) !== -1) {
-          textError = 'Хештеги не должны повторяться';
+          return 'Длина хештега должна быть не больше 20 символов';
         }
 
-        if (textError) {
-          break;
+        if (hash === '#') {
+          return 'Хештег не может состоять только из #';
         }
+        if (hash[0] !== '#') {
+          return 'Хештег должен начинаться с #';
+        }
+        if (tagsCopy.indexOf(hash.toLowerCase(), i + 1) !== -1) {
+          return 'Хештеги не должны повторяться';
+        }
+        return '';
       }
     }
-    return textError;
+    return '';
   };
 
   window.getTextError = getTextError;
