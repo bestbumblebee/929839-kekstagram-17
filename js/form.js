@@ -89,7 +89,7 @@
       evt.preventDefault();
       evt.stopPropagation();
       hashtag.style = 'border: 2px inset initial';
-      window.load.upload(new FormData(form), openErrorPopup, openSuccessPopup);
+      window.response.upload(new FormData(form), openErrorPopup, openSuccessPopup);
     }
   };
 

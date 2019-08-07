@@ -37,7 +37,7 @@
     window.renderPictures(pictures);
   };
 
-  var initFilter = function (pictures) {
+  window.initFilter = function (pictures) {
 
     var filter = document.querySelector('.img-filters');
     filter.classList.remove('img-filters--inactive');
@@ -66,7 +66,4 @@
 
     filter.addEventListener('click', onFilterClick);
   };
-
-  window.initFilter = initFilter;
-
 })();

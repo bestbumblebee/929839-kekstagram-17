@@ -23,12 +23,11 @@
     return pictureElement;
   };
 
-  var renderPictures = function (pictures) {
+  window.renderPictures = function (pictures) {
     var fragment = document.createDocumentFragment();
     pictures.forEach(function (element) {
       fragment.appendChild(renderPicture(element));
     });
     listPictures.appendChild(fragment);
   };
-  window.renderPictures = renderPictures;
 })();

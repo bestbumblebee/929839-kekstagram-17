@@ -6,7 +6,7 @@
   var fileChooser = document.querySelector('#upload-file');
   var preview = document.querySelector('.img-upload__preview img');
 
-  var getUserPhoto = function () {
+  window.getUserPhoto = function () {
     var file = fileChooser.files[0];
     var fileName = file.name.toLowerCase();
 
@@ -24,6 +24,4 @@
       reader.readAsDataURL(file);
     }
   };
-
-  window.getUserPhoto = getUserPhoto;
 })();

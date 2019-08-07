@@ -21,12 +21,12 @@
   var effectLevelDepth = formChangeFile.querySelector('.effect-level__depth');
 
   var defaultEffectsRadio = document.querySelector('.effects__radio[checked]');
-  var effectsPrewiewClass;
+  var effectsPreviewClass;
   var onFilterChange = function (evt) {
     var element = evt ? evt.target : defaultEffectsRadio;
-    photo.classList.remove(effectsPrewiewClass);
-    effectsPrewiewClass = 'effects__preview--' + element.value;
-    photo.classList.add(effectsPrewiewClass);
+    photo.classList.remove(effectsPreviewClass);
+    effectsPreviewClass = 'effects__preview--' + element.value;
+    photo.classList.add(effectsPreviewClass);
 
     if (photo.classList.contains('effects__preview--none')) {
       effectLevel.style.display = 'none';
@@ -127,7 +127,9 @@
     document.addEventListener('mouseup', onMouseUp);
   };
 
-  var addListenersForm = function () {
+  window.changeEffect = {};
+
+  window.changeEffect.addListenersForm = function () {
     getStartCondition();
     onFilterChange();
     formChangeFile.classList.remove('hidden');
@@ -137,16 +139,11 @@
     effectLevelPin.addEventListener('mousedown', onEffectLevelPinMousedown);
   };
 
-  var removeListenersForm = function () {
+  window.changeEffect.removeListenersForm = function () {
     formChangeFile.classList.add('hidden');
     scaleSmaller.removeEventListener('click', onScaleSmallerClick);
     scaleBigger.removeEventListener('click', onScaleBiggerClick);
     effect.removeEventListener('change', onFilterChange);
     effectLevelPin.removeEventListener('mousedown', onEffectLevelPinMousedown);
-  };
-
-  window.changeEffect = {
-    addListenersForm: addListenersForm,
-    removeListenersForm: removeListenersForm
   };
 })();

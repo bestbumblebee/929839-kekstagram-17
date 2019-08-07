@@ -5,4 +5,4 @@ var init = function (pictures) {
   window.initFilter(pictures);
 };
 
-window.load.load(init, window.renderMessageError);
+window.response.load(init, window.renderMessageError);

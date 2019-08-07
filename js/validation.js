@@ -4,7 +4,7 @@
   var MAX_LENGTH = 20;
   var MAX_TAGS = 5;
 
-  var getTextError = function (hashtag) {
+  window.getTextError = function (hashtag) {
     var tags = hashtag.split(' ');
     var tagsCopy = tags.map(function (hash) {
       return hash.toLowerCase();
@@ -36,6 +36,4 @@
     }
     return '';
   };
-
-  window.getTextError = getTextError;
 })();

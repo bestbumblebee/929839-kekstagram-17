@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var renderMessageError = function (errorMessage) {
+  window.renderMessageError = function (errorMessage) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: #eed21e;';
     node.style.position = 'absolute';
@@ -12,6 +12,4 @@
     node.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', node);
   };
-
-  window.renderMessageError = renderMessageError;
 })();

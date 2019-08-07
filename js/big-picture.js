@@ -67,7 +67,7 @@
     showComments();
   };
 
-  var renderBigPicture = function (photo) {
+  window.renderBigPicture = function (photo) {
     bigPicture.classList.remove('hidden');
     body.classList.add('modal-open');
     bigPicture.querySelector('.big-picture__img img').src = photo.url;
@@ -94,5 +94,4 @@
     closeBigPicture.removeEventListener('click', onClosePictureClick);
     document.removeEventListener('keydown', onPopupEscPress);
   };
-  window.renderBigPicture = renderBigPicture;
 })();
