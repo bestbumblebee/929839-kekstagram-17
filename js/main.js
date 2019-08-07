@@ -4,4 +4,4 @@ var init = function (pictures) {
   window.initFilter(pictures);
 };
 
-window.load(init, window.renderMessageError);
+window.load.load(init, window.renderMessageError);
