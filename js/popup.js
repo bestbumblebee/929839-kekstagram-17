@@ -10,29 +10,28 @@
   var main = document.querySelector('main');
   var successButton = successMessage.querySelector('.success__button');
 
-  hashtag.addEventListener('focus', function () {
-    hashtag.style = 'border: 2px inset initial';
-  });
   var customValidation = function () {
     var value = hashtag.value;
-    var listOfTags = value.split(' ');
-    var listOfTagsCopy = listOfTags.slice();
+    var tags = value.split(' ');
+    var tagsCopy = tags.map(function (hash) {
+      return hash.toLowerCase();
+    });
     var text = '';
 
-    if (value !== '') {
-      if (listOfTags.length > 5) {
+    if (value.trim() !== '') {
+      if (tags.length > 5) {
         text = 'Хештегов должно быть не больше 5';
         return text;
       }
-      for (var i = 0; i < listOfTags.length; i++) {
-        var hash = listOfTags[i];
+      for (var i = 0; i < tags.length; i++) {
+        var hash = tags[i];
         if (hash.length > 20) {
           text = 'Длина хештега должна быть не больше 20 символов';
         } else if (hash === '#') {
           text = 'Хештег не может состоять только из #';
         } else if (hash[0] !== '#') {
           text = 'Хештег должен начинаться с #';
-        } else if (listOfTagsCopy.indexOf(hash.toLowerCase(), i + 1) !== -1) {
+        } else if (tagsCopy.indexOf(hash.toLowerCase(), i + 1) !== -1) {
           text = 'Хештеги не должны повторяться';
         }
         if (text) {
@@ -42,29 +41,55 @@
     }
     return text;
   };
-  var successPopup = function () {
+  var onCloseSuccessClick = function () {
+    successMessage.remove();
+    removeListenersSuccess();
+  };
+
+  var onParentClick = function (evt) {
+    var parent = evt.target.classList.contains('.success__inner');
+    if (!parent) {
+      onCloseSuccessClick();
+      removeListenersSuccess();
+    }
+  };
+
+  var onEscPress = function (evt) {
+    if (evt.keyCode === ESC_CODE) {
+      onCloseSuccessClick();
+      removeListenersSuccess();
+    }
+  };
+
+  var removeListenersSuccess = function () {
+    successButton.removeEventListener('click', onCloseSuccessClick);
+    document.removeEventListener('click', onParentClick);
+    document.removeEventListener('keydown', onEscPress);
+  };
+
+  var successPopup = function (evt) {
+    evt.preventDefault(evt);
+    evt.stopPropagation(evt);
+
     main.appendChild(successMessage);
     closeForm.click();
 
-    successButton.addEventListener('click', function () {
-      successMessage.remove();
-    });
+    successButton.addEventListener('click', onCloseSuccessClick);
 
-    document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ESC_CODE) {
-        successMessage.remove();
-      }
-    });
+    document.addEventListener('click', onParentClick);
+
+    document.addEventListener('keydown', onEscPress);
   };
 
   submit.addEventListener('click', function (evt) {
-    evt.preventDefault();
     var errorText = customValidation();
     if (errorText) {
-      hashtag.setCustomValidity(errorText);
       hashtag.style = 'border: 2px solid red';
+      hashtag.setCustomValidity(errorText);
     } else {
-      successPopup();
+      hashtag.style = 'border: 2px inset initial';
+      evt.preventDefault();
+      successPopup(evt);
     }
   });
   var onPopupEscPress = function (evt) {
