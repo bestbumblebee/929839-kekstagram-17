@@ -1,13 +1,17 @@
 'use strict';
+
 (function () {
+  var MAX_VALUE = 100;
+  var MIN_VALUE = 25;
+  var STEP_SCALE = 25;
+
   var formChangeFile = document.querySelector('.img-upload__overlay');
+
   var photo = document.querySelector('.img-upload__preview img');
   var scaleSmaller = formChangeFile.querySelector('.scale__control--smaller');
   var scaleBigger = formChangeFile.querySelector('.scale__control--bigger');
   var scaleInput = formChangeFile.querySelector('.scale__control--value');
   var scaleValue;
-  var maxValue = 100;
-  var minValue = 25;
 
   var effect = formChangeFile.querySelector('.effects');
   var effectLevel = formChangeFile.querySelector('.effect-level');
@@ -21,51 +25,47 @@
     photo.classList.add('effects__preview--' + element.getAttribute('value'));
     onEffectChange();
   };
+
   var onEffectChange = function () {
     if (!photo.hasAttribute('class') || photo.className === 'effects__preview--none') {
-      scaleValue = maxValue;
+      scaleValue = MAX_VALUE;
       scaleInput.value = '100%';
       effectLevel.style.display = 'none';
       photo.style.filter = 'none';
     } else {
-      scaleValue = maxValue;
+      scaleValue = MAX_VALUE;
       scaleInput.value = '100%';
       effectLevel.style.display = 'block';
       effectLevelPin.style.left = '100%';
       effectLevelDepth.style.width = '100%';
-      changeEffectLevel(maxValue);
+      changeEffectLevel(MAX_VALUE);
       changeScale(scaleValue);
     }
   };
-
   var getValueFilter = function (procent, minFilter, maxFilter) {
     return procent * (maxFilter - minFilter) / 100 + minFilter;
   };
-
   var changeScale = function (procent) {
     photo.style = 'transform: scale(' + getValueFilter(procent, 0, 1) + ')';
   };
 
   var onScaleSmallerClick = function () {
-    var step = 25;
-    scaleValue = scaleValue - step;
-    if (scaleValue < minValue) {
-      scaleValue = minValue;
+    scaleValue = scaleValue - STEP_SCALE;
+    if (scaleValue < MIN_VALUE) {
+      scaleValue = MIN_VALUE;
     }
     scaleInput.value = scaleValue + '%';
     changeScale(scaleValue);
   };
 
   var onScaleBiggerClick = function () {
-    var step = 25;
-    scaleValue = scaleValue + step;
-    if (scaleValue > maxValue) {
-      scaleValue = maxValue;
+    scaleValue = scaleValue + STEP_SCALE;
+    if (scaleValue > MAX_VALUE) {
+      scaleValue = MAX_VALUE;
     }
     scaleInput.value = scaleValue + '%';
     changeScale(scaleValue);
   };
-
   var changeEffectLevel = function (procent) {
     switch (photo.className) {
       case 'effects__preview--chrome' :
@@ -116,7 +116,6 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   };
-
   var addListenersForm = function () {
     onEffectChange();
     formChangeFile.classList.remove('hidden');
@@ -125,7 +124,6 @@
     effect.addEventListener('change', onFilterChange);
     effectLevelPin.addEventListener('mousedown', onEffectLevelPinMousedown);
   };
-
   var removeListenersForm = function () {
     photo.classList.remove(photo.removeAttribute('class'));
     formChangeFile.classList.add('hidden');
@@ -134,7 +132,6 @@
     effect.removeEventListener('change', onFilterChange);
     effectLevelPin.removeEventListener('mousedown', onEffectLevelPinMousedown);
   };
-
   window.changeEffect = {
     addListenersForm: addListenersForm,
     removeListenersForm: removeListenersForm

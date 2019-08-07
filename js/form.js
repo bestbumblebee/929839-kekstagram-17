@@ -13,7 +13,7 @@
   var errorMessage = document.querySelector('#error').content.querySelector('.error');
 
   var successButton = successMessage.querySelector('.success__button');
-  var errorButtons = document.querySelectorAll('.error__button');
+  var errorButtons = errorMessage.querySelectorAll('.error__button');
 
   var customValidation = function () {
     var value = hashtag.value;
@@ -90,7 +90,7 @@
     document.removeEventListener('click', onDocumentClick);
     document.removeEventListener('keydown', onSuccessEscPress);
   };
-  var successPopup = function (evt) {
+  var openSuccessPopup = function (evt) {
     evt.preventDefault(evt);
     evt.stopPropagation(evt);
     main.appendChild(successMessage);
@@ -100,7 +100,7 @@
     document.addEventListener('keydown', onSuccessEscPress);
   };
 
-  var errorPopup = function (evt) {
+  var openErrorPopup = function (evt) {
     evt.preventDefault(evt);
     evt.stopPropagation(evt);
 
@@ -114,7 +114,7 @@
     document.addEventListener('keydown', onErrorEscPress);
   };
 
-  submit.addEventListener('click', function (evt) {
+  var onSubmitClick = function (evt) {
     var errorText = customValidation();
     if (errorText) {
       hashtag.style = 'border: 2px solid red';
@@ -124,7 +124,10 @@
       evt.preventDefault();
       sibmitForm(evt);
     }
-  });
+  };
+
+  submit.addEventListener('click', onSubmitClick);
+
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === ESC_CODE && document.activeElement !== textDescription && document.activeElement !== hashtag) {
       onCloseFormClick();
@@ -148,10 +151,10 @@
   var sibmitForm = function (evt) {
     window.load.upload(new FormData(form), function () {
       form.reset();
-      errorPopup(evt);
+      openErrorPopup(evt);
     }, function () {
       form.reset();
-      successPopup(evt);
+      openSuccessPopup(evt);
     });
 
     evt.preventDefault();

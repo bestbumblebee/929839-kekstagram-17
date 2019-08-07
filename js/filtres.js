@@ -17,9 +17,9 @@
     return pictures.slice().sort(rank);
   };
 
-  function getRandomArbitrary() {
+  var getRandomArbitrary = function () {
     return Math.random() - 0.5;
-  }
+  };
 
   var getRandomPictures = function (pictures) {
     return pictures.slice().sort(getRandomArbitrary).slice(0, 10);
@@ -58,10 +58,13 @@
       }
     };
 
-    filter.addEventListener('click', window.debounce(renderFilter));
+    var onFilterClick = function (evt) {
+      renderFilter(evt);
+    };
+
+    filter.addEventListener('click', window.debounce(onFilterClick));
   };
 
   window.initFilter = initFilter;
 
 })();
-
