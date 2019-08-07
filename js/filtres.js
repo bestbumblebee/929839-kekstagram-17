@@ -1,28 +1,32 @@
 'use strict';
+
 (function () {
+  var FIRST_IMAGE = 0;
+  var LAST_IMAGE = 10;
 
   var rank = function (first, second) {
     var firstCommentsLength = first.comments.length;
     var secondCommentsLength = second.comments.length;
+
     if (firstCommentsLength < secondCommentsLength) {
       return 1;
-    } else if (firstCommentsLength > secondCommentsLength) {
-      return -1;
-    } else {
-      return 0;
     }
+    if (firstCommentsLength > secondCommentsLength) {
+      return -1;
+    }
+    return 0;
   };
 
   var sortPictures = function (pictures) {
     return pictures.slice().sort(rank);
   };
 
-  function getRandomArbitrary() {
+  var getRandomArbitrary = function () {
     return Math.random() - 0.5;
-  }
+  };
 
   var getRandomPictures = function (pictures) {
-    return pictures.slice().sort(getRandomArbitrary).slice(0, 10);
+    return pictures.slice().sort(getRandomArbitrary).slice(FIRST_IMAGE, LAST_IMAGE);
   };
 
   var getFilterPictures = function (pictures) {
@@ -53,15 +57,16 @@
         var newPictures = getRandomPictures(pictures);
         getFilterPictures(newPictures);
       } else if (evt.target.id === 'filter-discussed') {
-        var array = sortPictures(pictures);
-        getFilterPictures(array);
+        var discussedPictures = sortPictures(pictures);
+        getFilterPictures(discussedPictures);
       }
     };
 
-    filter.addEventListener('click', window.debounce(renderFilter));
+    var onFilterClick = window.debounce(renderFilter);
+
+    filter.addEventListener('click', onFilterClick);
   };
 
   window.initFilter = initFilter;
 
 })();
-

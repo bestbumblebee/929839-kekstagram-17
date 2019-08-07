@@ -1,4 +1,5 @@
 'use strict';
+
 (function () {
   var TIME_OF_ANSWER = 10000;
   var STATUS_OK = 200;
@@ -10,6 +11,7 @@
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
+
       if (xhr.status === STATUS_OK) {
         onSuccess(xhr.response);
       } else {
@@ -35,18 +37,14 @@
 
     xhr.addEventListener('load', function () {
       if (xhr.status === STATUS_OK) {
-        onSuccess(xhr.response);
+        onSuccess();
       } else {
         onError();
       }
     });
 
-    xhr.addEventListener('error', function () {
-      onError();
-    });
-    xhr.addEventListener('timeout', function () {
-      onError();
-    });
+    xhr.addEventListener('error', onError);
+    xhr.addEventListener('timeout', onError);
 
     xhr.open('POST', URL_UPLOAD);
     xhr.send(data);
