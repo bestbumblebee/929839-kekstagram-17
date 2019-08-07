@@ -1,10 +1,11 @@
 'use strict';
+
 (function () {
   var TIME_OF_ANSWER = 10000;
   var STATUS_OK = 200;
 
   var URL_LOAD = 'https://js.dump.academy/kekstagram/data';
-  var URL_UPLOAD = 'https://js.dump.academy/kekstagram';
+  var URL_UPLOAD = 'https://js.dump.academy/kekstagram1';
 
   var load = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
@@ -35,7 +36,7 @@
 
     xhr.addEventListener('load', function () {
       if (xhr.status === STATUS_OK) {
-        onSuccess(xhr.response);
+        onSuccess();
       } else {
         onError();
       }
