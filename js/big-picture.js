@@ -4,6 +4,7 @@
 
   var bigPicture = document.querySelector('.big-picture');
   var listComments = bigPicture.querySelector('.social__comments');
+  var body = document.querySelector('body');
 
   var renderComment = function (comment) {
     var commentItem = document.createElement('li');
@@ -12,7 +13,7 @@
     var commentImg = document.createElement('img');
     commentImg.classList.add('social__picture');
     commentImg.src = comment.avatar;
-    commentImg.alt = 'Аватар комментатора фотографии';
+    commentImg.alt = comment.name;
     commentImg.width = '35';
     commentImg.height = '35';
     commentItem.appendChild(commentImg);
@@ -37,8 +38,9 @@
   };
 
   var renderBigPicture = function (photo) {
-
     bigPicture.classList.remove('hidden');
+    body.classList.add('modal-open');
+
     bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
     bigPicture.querySelector('.comments-loader').classList.add('visually-hidden');
 
@@ -65,6 +67,7 @@
 
   var onClosePictureClick = function () {
     bigPicture.classList.add('hidden');
+    body.classList.remove('modal-open');
     closeBigPicture.removeEventListener('click', onClosePictureClick);
     document.removeEventListener('keydown', onPopupEscPress);
   };
