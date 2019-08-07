@@ -80,15 +80,14 @@
   };
 
   var onSubmitClick = function (evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-
     var errorText = window.getTextError(hashtag.value);
 
     if (errorText) {
       hashtag.style = 'border: 2px solid red';
       hashtag.setCustomValidity(errorText);
     } else {
+      evt.preventDefault();
+      evt.stopPropagation();
       hashtag.style = 'border: 2px inset initial';
       window.load.upload(new FormData(form), openErrorPopup, openSuccessPopup);
     }

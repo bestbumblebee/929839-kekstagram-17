@@ -5,12 +5,13 @@
   var STATUS_OK = 200;
 
   var URL_LOAD = 'https://js.dump.academy/kekstagram/data';
-  var URL_UPLOAD = 'https://js.dump.academy/kekstagram1';
+  var URL_UPLOAD = 'https://js.dump.academy/kekstagram';
 
   var load = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
+
       if (xhr.status === STATUS_OK) {
         onSuccess(xhr.response);
       } else {
@@ -42,12 +43,8 @@
       }
     });
 
-    xhr.addEventListener('error', function () {
-      onError();
-    });
-    xhr.addEventListener('timeout', function () {
-      onError();
-    });
+    xhr.addEventListener('error', onError);
+    xhr.addEventListener('timeout', onError);
 
     xhr.open('POST', URL_UPLOAD);
     xhr.send(data);

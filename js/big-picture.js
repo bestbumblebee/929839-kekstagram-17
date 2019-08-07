@@ -15,13 +15,15 @@
     var commentItem = document.createElement('li');
     commentItem.classList.add('social__comment');
     commentItem.classList.add('visually-hidden');
-    var commentImg = document.createElement('img');
-    commentImg.classList.add('social__picture');
-    commentImg.src = comment.avatar;
-    commentImg.alt = comment.name;
-    commentImg.width = '35';
-    commentImg.height = '35';
-    commentItem.appendChild(commentImg);
+
+    var commentImage = document.createElement('img');
+    commentImage.classList.add('social__picture');
+    commentImage.src = comment.avatar;
+    commentImage.alt = comment.name;
+    commentImage.width = '35';
+    commentImage.height = '35';
+    commentItem.appendChild(commentImage);
+
     var commentText = document.createElement('p');
     commentText.classList.add('social__text');
     commentText.textContent = comment.message;

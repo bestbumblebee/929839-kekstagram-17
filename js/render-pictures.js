@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var listElement = document.querySelector('.pictures');
+  var listPictures = document.querySelector('.pictures');
 
   var pictureTemplate = document.querySelector('#picture')
   .content
@@ -28,7 +28,7 @@
     for (var i = 0; i < pictures.length; i++) {
       fragment.appendChild(renderPicture(pictures[i]));
     }
-    listElement.appendChild(fragment);
+    listPictures.appendChild(fragment);
   };
   window.renderPictures = renderPictures;
 })();
