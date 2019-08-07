@@ -3,12 +3,12 @@
   var TIME_OF_ANSWER = 10000;
   var STATUS_OK = 200;
 
-  var URL = 'https://js.dump.academy/kekstagram/data';
+  var URL_LOAD = 'https://js.dump.academy/kekstagram/data';
+  var URL_UPLOAD = 'https://js.dump.academy/kekstagram';
 
   var load = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
-
     xhr.addEventListener('load', function () {
       if (xhr.status === STATUS_OK) {
         onSuccess(xhr.response);
@@ -25,9 +25,35 @@
 
     xhr.timeout = TIME_OF_ANSWER;
 
-    xhr.open('GET', URL);
+    xhr.open('GET', URL_LOAD);
     xhr.send();
   };
 
-  window.load = load;
+  var upload = function (data, onError, onSuccess) {
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+
+    xhr.addEventListener('load', function () {
+      if (xhr.status === STATUS_OK) {
+        onSuccess(xhr.response);
+      } else {
+        onError();
+      }
+    });
+
+    xhr.addEventListener('error', function () {
+      onError();
+    });
+    xhr.addEventListener('timeout', function () {
+      onError();
+    });
+
+    xhr.open('POST', URL_UPLOAD);
+    xhr.send(data);
+  };
+
+  window.load = {
+    load: load,
+    upload: upload
+  };
 })();

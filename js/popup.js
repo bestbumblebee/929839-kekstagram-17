@@ -1,14 +1,19 @@
 'use strict';
 (function () {
   var ESC_CODE = 27;
+
+  var main = document.querySelector('main');
   var uploadFile = document.querySelector('#upload-file');
   var closeForm = document.querySelector('.img-upload__cancel');
   var textDescription = document.querySelector('.text__description');
   var hashtag = document.querySelector('.text__hashtags');
   var submit = document.querySelector('.img-upload__submit');
+
   var successMessage = document.querySelector('#success').content.querySelector('.success');
-  var main = document.querySelector('main');
+  var errorMessage = document.querySelector('#error').content.querySelector('.error');
+
   var successButton = successMessage.querySelector('.success__button');
+  var errorButtons = document.querySelectorAll('.error__button');
 
   var customValidation = function () {
     var value = hashtag.value;
@@ -16,69 +21,97 @@
     var tagsCopy = tags.map(function (hash) {
       return hash.toLowerCase();
     });
-    var text = '';
-
+    var textError = '';
     if (value.trim() !== '') {
       if (tags.length > 5) {
-        text = 'Хештегов должно быть не больше 5';
-        return text;
+        textError = 'Хештегов должно быть не больше 5';
+        return textError;
       }
       for (var i = 0; i < tags.length; i++) {
         var hash = tags[i];
         if (hash.length > 20) {
-          text = 'Длина хештега должна быть не больше 20 символов';
+          textError = 'Длина хештега должна быть не больше 20 символов';
         } else if (hash === '#') {
-          text = 'Хештег не может состоять только из #';
+          textError = 'Хештег не может состоять только из #';
         } else if (hash[0] !== '#') {
-          text = 'Хештег должен начинаться с #';
+          textError = 'Хештег должен начинаться с #';
         } else if (tagsCopy.indexOf(hash.toLowerCase(), i + 1) !== -1) {
-          text = 'Хештеги не должны повторяться';
+          textError = 'Хештеги не должны повторяться';
         }
-        if (text) {
+        if (textError) {
           break;
         }
       }
     }
-    return text;
-  };
-  var onCloseSuccessClick = function () {
-    successMessage.remove();
-    removeListenersSuccess();
+    return textError;
   };
 
-  var onParentClick = function (evt) {
+  var onCloseSuccessClick = function () {
+    successMessage.remove();
+    removeListenersPopup();
+  };
+
+  var onCloseErrorClick = function () {
+    errorMessage.remove();
+    removeListenersPopup();
+  };
+
+  var onDocumentClick = function (evt) {
     var parent = evt.target.classList.contains('.success__inner');
     if (!parent) {
       onCloseSuccessClick();
-      removeListenersSuccess();
     }
   };
 
-  var onEscPress = function (evt) {
+  var onDocumentErrorClick = function (evt) {
+    var parent = evt.target.classList.contains('.error__inner');
+    if (!parent) {
+      onCloseErrorClick();
+    }
+  };
+
+  var onSuccessEscPress = function (evt) {
     if (evt.keyCode === ESC_CODE) {
       onCloseSuccessClick();
-      removeListenersSuccess();
     }
   };
 
-  var removeListenersSuccess = function () {
-    successButton.removeEventListener('click', onCloseSuccessClick);
-    document.removeEventListener('click', onParentClick);
-    document.removeEventListener('keydown', onEscPress);
+  var onErrorEscPress = function (evt) {
+    if (evt.keyCode === ESC_CODE) {
+      onCloseErrorClick();
+    }
   };
 
+  var removeListenersPopup = function () {
+    errorButtons.forEach(function (element) {
+      element.removeEventListener('click', onCloseErrorClick);
+    });
+    successButton.removeEventListener('click', onCloseSuccessClick);
+    document.removeEventListener('click', onDocumentClick);
+    document.removeEventListener('keydown', onSuccessEscPress);
+  };
   var successPopup = function (evt) {
     evt.preventDefault(evt);
     evt.stopPropagation(evt);
-
     main.appendChild(successMessage);
     closeForm.click();
-
     successButton.addEventListener('click', onCloseSuccessClick);
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onSuccessEscPress);
+  };
 
-    document.addEventListener('click', onParentClick);
+  var errorPopup = function (evt) {
+    evt.preventDefault(evt);
+    evt.stopPropagation(evt);
 
-    document.addEventListener('keydown', onEscPress);
+    main.appendChild(errorMessage);
+    closeForm.click();
+
+    errorButtons.forEach(function (element) {
+      element.addEventListener('click', onCloseErrorClick);
+    });
+    document.addEventListener('click', onDocumentErrorClick);
+    document.addEventListener('keydown', onErrorEscPress);
   };
 
   submit.addEventListener('click', function (evt) {
@@ -89,7 +122,7 @@
     } else {
       hashtag.style = 'border: 2px inset initial';
       evt.preventDefault();
-      successPopup(evt);
+      sibmitForm(evt);
     }
   });
   var onPopupEscPress = function (evt) {
@@ -102,10 +135,25 @@
     closeForm.addEventListener('click', onCloseFormClick);
     document.addEventListener('keydown', onPopupEscPress);
   };
+
   var onCloseFormClick = function () {
+    form.reset();
     window.changeEffect.removeListenersForm();
     closeForm.removeEventListener('click', onCloseFormClick);
     document.removeEventListener('keydown', onPopupEscPress);
   };
   uploadFile.addEventListener('change', onUploadFileChange);
+
+  var form = document.querySelector('.img-upload__form');
+  var sibmitForm = function (evt) {
+    window.load.upload(new FormData(form), function () {
+      form.reset();
+      errorPopup(evt);
+    }, function () {
+      form.reset();
+      successPopup(evt);
+    });
+
+    evt.preventDefault();
+  };
 })();
