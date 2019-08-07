@@ -35,7 +35,7 @@
       effectLevel.style.display = 'block';
       effectLevelPin.style.left = '100%';
       effectLevelDepth.style.width = '100%';
-      changeEffectLevel(MAX_VALUE);
+      photo.style.filter = getEffectLevel(MAX_VALUE);
       changeScale(scaleValue);
     }
   };
@@ -72,23 +72,25 @@
     changeScale(scaleValue);
   };
 
-  var changeEffectLevel = function (percent) {
+  var getEffectLevel = function (percent) {
     switch (photo.className) {
       case 'effects__preview--chrome' :
-        photo.style.filter = 'grayscale(' + getValueFilter(percent, 0, 1) + ')';
-        break;
+        return 'grayscale(' + getValueFilter(percent, 0, 1) + ')';
+
       case 'effects__preview--sepia' :
-        photo.style.filter = 'sepia(' + getValueFilter(percent, 0, 1) + ')';
-        break;
+        return 'sepia(' + getValueFilter(percent, 0, 1) + ')';
+
       case 'effects__preview--marvin' :
-        photo.style.filter = 'invert(' + getValueFilter(percent, 0, 100) + '%)';
-        break;
+        return 'invert(' + getValueFilter(percent, 0, 100) + '%)';
+
       case 'effects__preview--phobos' :
-        photo.style.filter = 'blur(' + getValueFilter(percent, 0, 3) + 'px)';
-        break;
+        return 'blur(' + getValueFilter(percent, 0, 3) + 'px)';
+
       case 'effects__preview--heat' :
-        photo.style.filter = 'brightness(' + getValueFilter(percent, 1, 3) + ')';
-        break;
+        return 'brightness(' + getValueFilter(percent, 1, 3) + ')';
+
+      default:
+        return '';
     }
   };
 
@@ -114,7 +116,7 @@
       effectLevelDepth.style.width = levelEffect + '%';
       effectLevelValue.value = levelEffect;
 
-      changeEffectLevel(levelEffect);
+      photo.style.filter = getEffectLevel(levelEffect);
     };
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();

@@ -46,21 +46,21 @@
 
   var showComments = function () {
     var usersComments = Array.from(listComment.querySelectorAll('.social__comment'));
+    var numbers = (currentComments < usersComments.length) ? currentComments : usersComments.length;
 
     if (currentComments < usersComments.length) {
       for (var i = 0; i < currentComments; i++) {
         usersComments[i].classList.remove('visually-hidden');
       }
       commentsLoader.classList.remove('visually-hidden');
-      currentCommentsCount.textContent = currentComments + ' из ' + commentsCount.textContent + ' комментариев';
       currentComments = currentComments + STEP_COUNT;
     } else {
-      for (var j = 0; j < usersComments.length; j++) {
-        usersComments[j].classList.remove('visually-hidden');
-      }
-      currentCommentsCount.textContent = usersComments.length + ' из ' + commentsCount.textContent + ' комментариев';
+      usersComments.forEach(function (element) {
+        element.classList.remove('visually-hidden');
+      });
       commentsLoader.classList.add('visually-hidden');
     }
+    currentCommentsCount.textContent = numbers + ' из ' + commentsCount.textContent + ' комментариев';
   };
 
   var onShowCommentsClick = function () {
